@@ -9,3 +9,31 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Provider {
+  GOOGLE
+  FACEBOOK
+  GITHUB
+  EMAIL
+}
+
+model Photo {
+  id      String  @id @default(cuid())
+  label   String
+  url     String
+  owner   User?   @relation(fields: [ownerId], references: [id])
+  ownerId String?
+}
+
+model User {
+  id         String   @id @default(cuid())
+  name       String?
+  email      String?  @unique
+  provider   Provider
+  providerId String?
+  createdAt  DateTime @default(now()) @map(name: "created_at")
+  updatedAt  DateTime @updatedAt @map(name: "updated_at")
+  photos     Photo[]
+
+  @@map(name: "users")
+}
