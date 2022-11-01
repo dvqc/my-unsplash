@@ -1,0 +1,55 @@
+@import './globals.scss';
+
+.image-container {
+    width: 25.65rem;
+    height: 19.1rem;
+    border-radius: 1rem;
+    position: relative;
+    isolation: isolate;
+    transition: all 0.3s ease-in;
+}
+
+
+.image-container:hover {
+    border-radius: 1.6rem;
+}
+
+.image-container::after {
+    content: '';
+    position: absolute;
+    background: rgba(0, 0, 0, 0.38);
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    transition: all 0.3s ease-in;
+    border-radius: 1.6rem;
+}
+
+.image-container:hover:after {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.image-container p {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.4rem;
+    color: $text-white;
+    position: absolute;
+    left: 8%;
+    bottom: 20%;
+}
+
+.image-container button {
+    font-size: 0.7rem;
+    font-weight: 600;
+    height: 1.55rem;
+    width: 4rem;
+    border-radius: 2.55rem;
+    color: $red-1;
+    border: 2px solid $red-1;
+    background: none;
+    right: 5%;
+    top: 5%;
+    position: absolute;
+}
