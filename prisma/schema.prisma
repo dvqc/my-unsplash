@@ -53,8 +53,8 @@ model User {
   email         String?   @unique
   emailVerified DateTime?
   image         String?
-  createdAt     DateTime  @default(now()) @map(name: "created_at")
-  updatedAt     DateTime  @updatedAt @map(name: "updated_at")
+  createdAt     DateTime? @default(now()) @map(name: "created_at")
+  updatedAt     DateTime? @updatedAt @map(name: "updated_at")
   photos        Photo[]
   accounts      Account[]
   sessions      Session[]

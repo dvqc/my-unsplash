@@ -1,18 +1,31 @@
+import { NextApiHandler } from "next";
 import NextAuth from "next-auth";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import EmailProvider from "next-auth/providers/email";
+import prisma from "../../../lib/prisma";
 
-export default NextAuth({
+const authHandler: NextApiHandler = (req, res) =>
+  NextAuth(req, res, authOptions);
+export default authHandler;
+
+export const authOptions = {
   providers: [
-    // OAuth authentication providers...
     GoogleProvider({
-      clientId: process.env.GOOGLE_ID ? process.env.GOOGLE_ID : "",
-      clientSecret: process.env.GOOGLE_SECRET ? process.env.GOOGLE_SECRET : ""
+      clientId: process.env.GOOGLE_ID ?? "",
+      clientSecret: process.env.GOOGLE_SECRET ?? "",
+      httpOptions: {
+        timeout: 40000
+      }
     }),
-    // Passwordless / email sign in
-    EmailProvider({
-      server: process.env.MAIL_SERVER,
-      from: "NextAuth.js <no-reply@example.com>"
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID ?? "",
+      clientSecret: process.env.GITHUB_SECRET ?? "",
+      httpOptions: {
+        timeout: 40000
+      }
     })
-  ]
-});
+  ],
+  adapter: PrismaAdapter(prisma),
+  secret: process.env.SECRET
+};
