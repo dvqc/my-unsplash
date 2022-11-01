@@ -1,12 +1,9 @@
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
 import prisma from "../lib/prisma";
-import { PhotosData } from "../types/prisma.types";
-import { unstable_getServerSession } from "next-auth/next";
-import { authOptions } from "./api/auth/[...nextauth]";
 import { getSession, signIn, signOut, useSession } from "next-auth/react";
 import { Photo } from "@prisma/client";
+import Header from "../components/Header";
 
 type Feed = {
   feed: Photo[];
@@ -28,27 +25,16 @@ const Home: NextPage<Feed> = ({ feed }) => {
 
   return (
     <>
-      Signed in as {session?.user?.name} <br />
-      <div>
+      <Header username={session?.user?.name ?? "Anonymous"} />
+      <main>
         {feed.map((photo, i) => (
           <img key={i} src={photo.url}></img>
         ))}
-      </div>
+      </main>
       <button onClick={() => signOut()}>Sign out</button>
     </>
   );
 };
-
-// export const getServerSideProps: GetServerSideProps = async (context) => {
-//   const session = await getSession(context);
-//   if (!session)
-//     return {
-//       redirect: {
-//         destination: "api/auth/signin",
-//         permanent: false
-//       }
-//     };
-// };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
