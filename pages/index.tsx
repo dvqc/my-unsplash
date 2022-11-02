@@ -29,7 +29,11 @@ const Home: NextPage<Feed> = ({ feed }) => {
       <Header username={session?.user?.name ?? "Anonymous"} />
       <main>
         {feed.map((photo, i) => (
-          <PhotoComponent url={photo.url} label={photo.label}></PhotoComponent>
+          <PhotoComponent
+            key={photo.id}
+            url={photo.url}
+            label={photo.label}
+          ></PhotoComponent>
         ))}
       </main>
       <button onClick={() => signOut()}>Sign out</button>

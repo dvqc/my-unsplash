@@ -6,13 +6,14 @@
     border-radius: 1rem;
     position: relative;
     isolation: isolate;
-    transition: all 0.3s ease-in;
+    transition: all 0.5s ease-in;
 }
 
 
 .image-container:hover {
     border-radius: 1.6rem;
 }
+
 
 .image-container::after {
     content: '';
@@ -21,26 +22,16 @@
     inset: 0;
     z-index: -1;
     opacity: 0;
-    transition: all 0.3s ease-in;
+    transition: all 0.5s ease-in;
     border-radius: 1.6rem;
 }
 
 .image-container:hover:after {
     opacity: 1;
-    cursor: pointer;
-}
-
-.image-container p {
-    font-size: 1.2rem;
-    font-weight: 700;
-    line-height: 1.4rem;
-    color: $text-white;
-    position: absolute;
-    left: 8%;
-    bottom: 20%;
 }
 
 .image-container button {
+    display: block;
     font-size: 0.7rem;
     font-weight: 600;
     height: 1.55rem;
@@ -52,4 +43,55 @@
     right: 5%;
     top: 5%;
     position: absolute;
+    cursor: pointer;
+}
+
+.image-container button[show] {
+    display: block;
+    animation: fade-in .5s forwards;
+}
+
+.image-container button[closing] {
+    animation: fade-out .5s forwards;
+}
+
+.image-container button[closed] {
+    display: none;
+}
+
+.image-container p {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.4rem;
+    color: $text-white;
+    position: absolute;
+    left: 8%;
+    bottom: 20%;
+    animation: fade-out .5s forwards;
+}
+
+.image-container p[show] {
+    display: block;
+    animation: fade-in .5s forwards;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }
