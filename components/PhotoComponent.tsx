@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { Dispatch, RefObject, SetStateAction, useRef, useState } from "react";
 import styles from "../styles/Image.module.scss";
 
 const Photo = ({ url, label }: { url: string; label: string }) => {
@@ -7,37 +7,41 @@ const Photo = ({ url, label }: { url: string; label: string }) => {
     backgroundSize: "cover"
   };
 
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  type showStates = "true" | "false" | "closing";
+  const [show, setShow] = useState<showStates>("false");
+  const divRef = useRef<HTMLDivElement>(null);
 
+  const afterAnimation = (
+    ref: RefObject<HTMLElement>,
+    callback: () => void
+  ) => {
+    ref.current?.addEventListener(
+      "animationend",
+      () => {
+        callback();
+      },
+      {
+        once: true
+      }
+    );
+  };
   return (
     <div
       className={styles["image-container"]}
       style={bgImgStyle}
       onMouseEnter={(e) => {
-        buttonRef.current?.removeAttribute("closed");
-        buttonRef.current?.setAttribute("show", "");
+        setShow("true");
+        afterAnimation(divRef, () => setShow("true"));
       }}
       onMouseLeave={(e) => {
-        buttonRef.current?.removeAttribute("show");
-        buttonRef.current?.setAttribute("closing", "");
-        buttonRef.current?.addEventListener(
-          "animationend",
-          () => {
-            buttonRef.current?.removeAttribute("closing");
-            buttonRef.current?.setAttribute("closed", "");
-          },
-          { once: true }
-        );
+        setShow("closing");
+        afterAnimation(divRef, () => setShow("false"));
       }}
     >
-      <button
-        ref={buttonRef}
-        onFocus={() => console.log("clicked")}
-        onClick={() => console.log("clicked")}
-      >
-        delete
-      </button>
-      <p>{label}</p>
+      <div className={styles["image-highlights"]} ref={divRef} data-show={show}>
+        <button>delete</button>
+        <p>{label}</p>
+      </div>
     </div>
   );
 };

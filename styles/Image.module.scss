@@ -1,4 +1,6 @@
 @import './globals.scss';
+$transistion-time: 0.4s;
+
 
 .image-container {
     width: 25.65rem;
@@ -6,7 +8,7 @@
     border-radius: 1rem;
     position: relative;
     isolation: isolate;
-    transition: all 0.5s ease-in;
+    transition: all $transistion-time ease-in;
 }
 
 
@@ -22,7 +24,7 @@
     inset: 0;
     z-index: -1;
     opacity: 0;
-    transition: all 0.5s ease-in;
+    transition: all $transistion-time ease-in;
     border-radius: 1.6rem;
 }
 
@@ -30,7 +32,27 @@
     opacity: 1;
 }
 
-.image-container button {
+.image-highlights {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+.image-highlights[data-show=true] {
+    display: block;
+    animation: fade-in $transistion-time forwards;
+}
+
+.image-highlights[data-show=closing] {
+    animation: fade-out $transistion-time forwards;
+}
+
+.image-highlights[data-show=false] {
+    display: none;
+}
+
+.image-highlights button {
     display: block;
     font-size: 0.7rem;
     font-weight: 600;
@@ -46,20 +68,13 @@
     cursor: pointer;
 }
 
-.image-container button[show] {
-    display: block;
-    animation: fade-in .5s forwards;
+.image-highlights button:hover {
+    background-color: $red-1;
+    color: $text-white;
+    transition: all $transistion-time/1.5 ease-in;
 }
 
-.image-container button[closing] {
-    animation: fade-out .5s forwards;
-}
-
-.image-container button[closed] {
-    display: none;
-}
-
-.image-container p {
+.image-highlights p {
     display: block;
     font-size: 1.2rem;
     font-weight: 700;
@@ -68,12 +83,6 @@
     position: absolute;
     left: 8%;
     bottom: 20%;
-    animation: fade-out .5s forwards;
-}
-
-.image-container p[show] {
-    display: block;
-    animation: fade-in .5s forwards;
 }
 
 @keyframes fade-in {
