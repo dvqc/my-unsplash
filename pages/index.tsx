@@ -5,6 +5,7 @@ import { getSession, signIn, signOut, useSession } from "next-auth/react";
 import { Photo } from "@prisma/client";
 import Header from "../components/Header";
 import PhotoComponent from "../components/PhotoComponent";
+import PhotosContainer from "../components/PhotosContainer";
 
 type Feed = {
   feed: Photo[];
@@ -28,13 +29,7 @@ const Home: NextPage<Feed> = ({ feed }) => {
     <>
       <Header username={session?.user?.name ?? "Anonymous"} />
       <main>
-        {feed.map((photo, i) => (
-          <PhotoComponent
-            key={photo.id}
-            url={photo.url}
-            label={photo.label}
-          ></PhotoComponent>
-        ))}
+        <PhotosContainer photos={feed} />
       </main>
       <button onClick={() => signOut()}>Sign out</button>
     </>

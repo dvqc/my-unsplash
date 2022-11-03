@@ -25,6 +25,7 @@ const Photo = ({ url, label }: { url: string; label: string }) => {
       }
     );
   };
+
   return (
     <div
       className={styles["image-container"]}

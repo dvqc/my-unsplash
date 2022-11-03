@@ -1,106 +1,118 @@
-@import './globals.scss';
+@import "./globals.scss";
 $transistion-time: 0.4s;
 
+.images-container {
+  margin: 2rem auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(25.65rem, 1fr));
+  gap: 2rem;
+  grid-auto-rows: 19.1rem;
+  grid-auto-flow: dense;
+}
+
+.image-container:nth-child(3n+2) {
+  grid-row: span 2;
+}
 
 .image-container {
-    width: 25.65rem;
-    height: 19.1rem;
-    border-radius: 1rem;
-    position: relative;
-    isolation: isolate;
-    transition: all $transistion-time ease-in;
+  // min-width: 25.65rem;
+  // min-height: 19.1rem;
+  border-radius: 1rem;
+  position: relative;
+  isolation: isolate;
+  transition: all $transistion-time ease-in;
 }
-
 
 .image-container:hover {
-    border-radius: 1.6rem;
+  border-radius: 1.6rem;
 }
 
-
 .image-container::after {
-    content: '';
-    position: absolute;
-    background: rgba(0, 0, 0, 0.38);
-    inset: 0;
-    z-index: -1;
-    opacity: 0;
-    transition: all $transistion-time ease-in;
-    border-radius: 1.6rem;
+  content: "";
+  position: absolute;
+  background: rgba(0, 0, 0, 0.38);
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  transition: all $transistion-time ease-in;
+  border-radius: 1.6rem;
 }
 
 .image-container:hover:after {
-    opacity: 1;
+  opacity: 1;
 }
 
 .image-highlights {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
 }
 
-.image-highlights[data-show=true] {
-    display: block;
-    animation: fade-in $transistion-time forwards;
+.image-highlights[data-show="true"] {
+  display: block;
+  animation: fade-in $transistion-time forwards;
 }
 
-.image-highlights[data-show=closing] {
-    animation: fade-out $transistion-time forwards;
+.image-highlights[data-show="closing"] {
+  animation: fade-out $transistion-time forwards;
 }
 
-.image-highlights[data-show=false] {
-    display: none;
+.image-highlights[data-show="false"] {
+  display: none;
 }
 
 .image-highlights button {
-    display: block;
-    font-size: 0.7rem;
-    font-weight: 600;
-    height: 1.55rem;
-    width: 4rem;
-    border-radius: 2.55rem;
-    color: $red-1;
-    border: 2px solid $red-1;
-    background: none;
-    right: 5%;
-    top: 5%;
-    position: absolute;
-    cursor: pointer;
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 600;
+  height: 1.55rem;
+  width: 4rem;
+  border-radius: 2.55rem;
+  color: $red-1;
+  border: 2px solid $red-1;
+  background: none;
+  right: 5%;
+  top: 5%;
+  position: absolute;
+  cursor: pointer;
 }
 
 .image-highlights button:hover {
-    background-color: $red-1;
-    color: $text-white;
-    transition: all $transistion-time/1.5 ease-in;
+  background-color: $red-1;
+  color: $text-white;
+  transition: all $transistion-time/1.5 ease-in;
 }
 
 .image-highlights p {
-    display: block;
-    font-size: 1.2rem;
-    font-weight: 700;
-    line-height: 1.4rem;
-    color: $text-white;
-    position: absolute;
-    left: 8%;
-    bottom: 20%;
+  max-height: 60%;
+  display: block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.4rem;
+  color: $text-white;
+  position: absolute;
+  left: 8%;
+  bottom: 20%;
+  overflow: hidden;
 }
 
 @keyframes fade-in {
-    0% {
-        opacity: 0;
-    }
+  0% {
+    opacity: 0;
+  }
 
-    100% {
-        opacity: 1;
-    }
+  100% {
+    opacity: 1;
+  }
 }
 
 @keyframes fade-out {
-    0% {
-        opacity: 1;
-    }
+  0% {
+    opacity: 1;
+  }
 
-    100% {
-        opacity: 0;
-    }
+  100% {
+    opacity: 0;
+  }
 }
