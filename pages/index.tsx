@@ -6,17 +6,28 @@ import { Photo } from "@prisma/client";
 import Header from "../components/Header";
 import PhotoComponent from "../components/PhotoComponent";
 import PhotosContainer from "../components/PhotosContainer";
-import Modal from "../components/AddModal";
-import { createRef } from "react";
+import AddModal from "../components/AddModal";
+import { createRef, useState } from "react";
+import DeleteModal from "../components/DeleteModal";
 
 type Feed = {
   feed: Photo[];
 };
 
+const PHOTOS_PER_PAGE = 7;
 const Home: NextPage<Feed> = ({ feed }) => {
   const { data: session, status } = useSession();
-  const modalRef = createRef<HTMLDialogElement>();
 
+  const [page, setPage] = useState(0);
+  const [isEndReached, setIsEndReached] = useState(false);
+  const [deleteId, setDeleteId] = useState("");
+
+  const addModalRef = createRef<HTMLDialogElement>();
+  const deleteModalRef = createRef<HTMLDialogElement>();
+  
+  const fetchPhotos =() => {
+    
+  }
   if (status == "loading") return <div>loading ...</div>;
   if (status == "unauthenticated") {
     return (
@@ -32,12 +43,17 @@ const Home: NextPage<Feed> = ({ feed }) => {
       <Header
         username={session?.user?.name ?? "Anonymous"}
         onAddPhoto={() => {
-          modalRef.current?.showModal();
+          addModalRef.current?.showModal();
         }}
       />
       <main>
-        <PhotosContainer photos={feed} />
-        <Modal ref={modalRef}></Modal>
+        <PhotosContainer
+          photos={feed}
+          selectDelPhoto={setDeleteId}
+          deleteModal={deleteModalRef}
+        />
+        <DeleteModal ref={deleteModalRef} id={deleteId}></DeleteModal>
+        <AddModal ref={addModalRef}></AddModal>
       </main>
       <button onClick={() => signOut()}>Sign out</button>
     </>
@@ -48,8 +64,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const session = await getSession(context);
   if (session && session != undefined) {
     const feed = await prisma.photo.findMany({
+      take: PHOTOS_PER_PAGE,
       where: {
         ownerId: session.user?.id
+      },
+      orderBy: {
+        id: "desc"
       }
     });
     return {

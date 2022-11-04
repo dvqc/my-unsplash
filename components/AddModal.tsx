@@ -61,14 +61,6 @@ const AddModal = forwardRef<HTMLDialogElement, {}>(({}, ref) => {
           value={url}
         />
 
-        <label htmlFor="url">Photo URL</label>
-        <input
-          id="url"
-          onChange={(e) => setUrl(e.target.value)}
-          placeholder="Set the photo url"
-          value={url}
-        />
-
         <div>
           <input
             className={styles["submit"]}

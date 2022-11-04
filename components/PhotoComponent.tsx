@@ -2,7 +2,15 @@ import { useRef, useState } from "react";
 import styles from "../styles/Image.module.scss";
 import { afterAnimation } from "../utils";
 
-const Photo = ({ url, label }: { url: string; label: string }) => {
+const Photo = ({
+  url,
+  label,
+  onDelete
+}: {
+  url: string;
+  label: string;
+  onDelete: () => void;
+}) => {
   const bgImgStyle = {
     background: "url(" + url + ") no-repeat center",
     backgroundSize: "cover"
@@ -11,7 +19,6 @@ const Photo = ({ url, label }: { url: string; label: string }) => {
   type showStates = "true" | "false" | "closing";
   const [show, setShow] = useState<showStates>("false");
   const divRef = useRef<HTMLDivElement>(null);
-
 
   return (
     <div
@@ -27,7 +34,7 @@ const Photo = ({ url, label }: { url: string; label: string }) => {
       }}
     >
       <div className={styles["image-highlights"]} ref={divRef} data-show={show}>
-        <button>delete</button>
+        <button onClick={onDelete}>delete</button>
         <p>{label}</p>
       </div>
     </div>

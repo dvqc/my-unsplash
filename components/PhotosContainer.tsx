@@ -1,8 +1,17 @@
 import { Photo } from "@prisma/client";
 import PhotoComponent from "./PhotoComponent";
 import styles from "../styles/Image.module.scss";
+import { Dispatch, RefObject, SetStateAction } from "react";
 
-const PhotosContainer = ({ photos }: { photos: Photo[] }) => {
+const PhotosContainer = ({
+  photos,
+  selectDelPhoto,
+  deleteModal
+}: {
+  photos: Photo[];
+  selectDelPhoto: Dispatch<SetStateAction<string>>;
+  deleteModal: RefObject<HTMLDialogElement>;
+}) => {
   if (photos.length == 0)
     return (
       <div className={styles["no-images"]}>
@@ -16,6 +25,10 @@ const PhotosContainer = ({ photos }: { photos: Photo[] }) => {
           key={photo.id}
           url={photo.url}
           label={photo.label}
+          onDelete={() => {
+            selectDelPhoto(photo.id);
+            deleteModal.current?.showModal();
+          }}
         ></PhotoComponent>
       ))}
     </div>

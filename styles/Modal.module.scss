@@ -2,7 +2,7 @@
 $transistion-time: .3s;
 
 .modal {
-    width: 41rem;
+    width: 35rem;
     background-color: $text-white;
     margin: 0;
     padding: 1.3rem;
@@ -91,9 +91,6 @@ $transistion-time: .3s;
         height: 3.6rem;
     }
 
-    input[type=submit]:hover {
-        background-color: $green-2;
-    }
 
     button {
         @include button;
@@ -116,4 +113,16 @@ $transistion-time: .3s;
 
 .submit {
     background-color: $green-1;
+}
+
+.submit:hover {
+    background-color: $green-2;
+}
+
+.delete {
+    background-color: $red-1;
+}
+
+.delete:hover {
+    background-color: $red-2;
 }

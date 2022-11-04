@@ -18,4 +18,7 @@ const closeModal = (
   cleanUpFunc();
 };
 
-export { afterAnimation, closeModal };
+const isPositiveInteger = (num: string) => {
+  return /^\d+$/.test(num);
+};
+export { afterAnimation, closeModal, isPositiveInteger };
