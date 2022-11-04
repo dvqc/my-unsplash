@@ -1,6 +1,13 @@
-import { useEffect, useRef, useState, forwardRef } from "react";
+import Router from "next/router";
+import {
+  useEffect,
+  useRef,
+  useState,
+  forwardRef,
+  MutableRefObject
+} from "react";
 import styles from "../styles/Modal.module.scss";
-import { afterAnimation } from "../utils";
+import { closeModal } from "../utils";
 
 const AddModal = forwardRef<HTMLDialogElement, {}>(({}, ref) => {
   const [label, setLabel] = useState("");
@@ -9,6 +16,23 @@ const AddModal = forwardRef<HTMLDialogElement, {}>(({}, ref) => {
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    try {
+      const body = { label, url };
+      await fetch("/api/photos", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    closeModal(localRef, resetState);
+    Router.push("/");
+  };
+
+  const resetState = () => {
+    setLabel("");
+    setUrl("");
   };
 
   useEffect(() => {
@@ -36,6 +60,15 @@ const AddModal = forwardRef<HTMLDialogElement, {}>(({}, ref) => {
           placeholder="Set the photo url"
           value={url}
         />
+
+        <label htmlFor="url">Photo URL</label>
+        <input
+          id="url"
+          onChange={(e) => setUrl(e.target.value)}
+          placeholder="Set the photo url"
+          value={url}
+        />
+
         <div>
           <input
             className={styles["submit"]}
@@ -44,12 +77,9 @@ const AddModal = forwardRef<HTMLDialogElement, {}>(({}, ref) => {
             value="Submit"
           />
           <button
-            onClick={() => {
-              localRef.current?.setAttribute("closing", "");
-              afterAnimation(localRef, () => {
-                localRef.current?.removeAttribute("closing");
-                localRef.current?.close();
-              });
+            onClick={(e) => {
+              e.preventDefault();
+              closeModal(localRef, resetState);
             }}
           >
             Cancel

@@ -1,15 +1,21 @@
-import { RefObject } from "react";
+import { MutableRefObject, RefObject } from "react";
 
 const afterAnimation = (ref: RefObject<HTMLElement>, callback: () => void) => {
-  ref.current?.addEventListener(
-    "animationend",
-    () => {
-      callback();
-    },
-    {
-      once: true
-    }
-  );
+  ref.current?.addEventListener("animationend", callback, {
+    once: true
+  });
 };
 
-export { afterAnimation };
+const closeModal = (
+  ref: MutableRefObject<HTMLDialogElement | null>,
+  cleanUpFunc: () => void
+) => {
+  ref.current?.setAttribute("closing", "");
+  afterAnimation(ref, () => {
+    ref.current?.removeAttribute("closing");
+    ref.current?.close();
+  });
+  cleanUpFunc();
+};
+
+export { afterAnimation, closeModal };

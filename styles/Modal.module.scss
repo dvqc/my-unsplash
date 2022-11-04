@@ -1,5 +1,5 @@
 @import './globals.scss';
-$transistion-time: 0.3s;
+$transistion-time: .3s;
 
 .modal {
     width: 41rem;
@@ -25,12 +25,16 @@ $transistion-time: 0.3s;
     animation: fade-in $transistion-time forwards;
 }
 
+.modal[open]::backdrop {
+    animation: fade-in $transistion-time forwards;
+}
+
 .modal[closing] {
     animation: fade-out $transistion-time forwards;
 }
 
-.modal[closed] {
-    display: none;
+.modal[closing]::backdrop {
+    animation: fade-out $transistion-time forwards;
 }
 
 @mixin input-mixin {

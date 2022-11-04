@@ -11,11 +11,15 @@ export default async function handle(
   const label = req.body?.label;
   const url = req.body?.url;
   const session = await getSession({ req });
+  if (req.method != "POST")
+    res.status(405).json({
+      err: "Method not allowed on this route"
+    });
   if (!session)
     res.status(401).json({
       err: "You are not signed in"
     });
-  if (label == undefined || url == undefined)
+  if (label == "" || label == undefined || url == "" || url == undefined)
     res.status(403).json({
       err: "Invalid body content"
     });
