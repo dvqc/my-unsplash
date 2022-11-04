@@ -33,18 +33,9 @@
 }
 
 .header button {
-    padding: 0;
-    border: none;
-    display: block;
-    min-height: 100%;
-    width: 9.1rem;
+    @include button;
     background-color: $green-1;
-    border-radius: 0.8rem;
-    box-shadow: $box-shadow;
-    color: $text-white;
-    font-size: 1rem;
-    font-weight: 700;
-    cursor: pointer;
+    width: 9.1rem;
 }
 
 .header button:hover {

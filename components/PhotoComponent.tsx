@@ -1,5 +1,6 @@
-import { Dispatch, RefObject, SetStateAction, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import styles from "../styles/Image.module.scss";
+import { afterAnimation } from "../utils";
 
 const Photo = ({ url, label }: { url: string; label: string }) => {
   const bgImgStyle = {
@@ -11,20 +12,6 @@ const Photo = ({ url, label }: { url: string; label: string }) => {
   const [show, setShow] = useState<showStates>("false");
   const divRef = useRef<HTMLDivElement>(null);
 
-  const afterAnimation = (
-    ref: RefObject<HTMLElement>,
-    callback: () => void
-  ) => {
-    ref.current?.addEventListener(
-      "animationend",
-      () => {
-        callback();
-      },
-      {
-        once: true
-      }
-    );
-  };
 
   return (
     <div

@@ -1,5 +1,12 @@
 import styles from "../styles/Header.module.scss";
-const Header = ({ username }: { username: string }) => {
+
+const Header = ({
+  username,
+  onAddPhoto
+}: {
+  username: string;
+  onAddPhoto: () => void;
+}) => {
   return (
     <header className={styles["header"]}>
       <div className={styles["left"]}>
@@ -9,7 +16,7 @@ const Header = ({ username }: { username: string }) => {
         </div>
         <input type="text" placeholder="Search by name" />
       </div>
-      <button>Add a photo</button>
+      <button onClick={onAddPhoto}>Add a photo</button>
     </header>
   );
 };

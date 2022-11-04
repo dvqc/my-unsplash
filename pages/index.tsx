@@ -6,6 +6,8 @@ import { Photo } from "@prisma/client";
 import Header from "../components/Header";
 import PhotoComponent from "../components/PhotoComponent";
 import PhotosContainer from "../components/PhotosContainer";
+import Modal from "../components/AddModal";
+import { createRef } from "react";
 
 type Feed = {
   feed: Photo[];
@@ -13,9 +15,9 @@ type Feed = {
 
 const Home: NextPage<Feed> = ({ feed }) => {
   const { data: session, status } = useSession();
+  const modalRef = createRef<HTMLDialogElement>();
 
   if (status == "loading") return <div>loading ...</div>;
-
   if (status == "unauthenticated") {
     return (
       <>
@@ -27,9 +29,15 @@ const Home: NextPage<Feed> = ({ feed }) => {
 
   return (
     <>
-      <Header username={session?.user?.name ?? "Anonymous"} />
+      <Header
+        username={session?.user?.name ?? "Anonymous"}
+        onAddPhoto={() => {
+          modalRef.current?.showModal();
+        }}
+      />
       <main>
         <PhotosContainer photos={feed} />
+        <Modal ref={modalRef}></Modal>
       </main>
       <button onClick={() => signOut()}>Sign out</button>
     </>

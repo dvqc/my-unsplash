@@ -1,0 +1,115 @@
+@import './globals.scss';
+$transistion-time: 0.3s;
+
+.modal {
+    width: 41rem;
+    background-color: $text-white;
+    margin: 0;
+    padding: 1.3rem;
+    border: 0;
+    border-radius: .8rem;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: $box-shadow;
+}
+
+.modal::backdrop {
+    background: rgb(0, 0, 0, .4);
+}
+
+
+.modal[open] {
+    display: block;
+    animation: fade-in $transistion-time forwards;
+}
+
+.modal[closing] {
+    animation: fade-out $transistion-time forwards;
+}
+
+.modal[closed] {
+    display: none;
+}
+
+@mixin input-mixin {
+    border: 1px solid $dark-2;
+    filter: drop-shadow(0px 1px 6px rgba(0, 0, 0, 0.1));
+    color: $dark-1;
+    border-radius: .8rem;
+    margin: .6rem 0;
+    padding: 0 1.2rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+
+.modal {
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: $dark-1;
+        margin-bottom: 1rem;
+    }
+
+    form {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+    }
+
+    input:not([type=submit]) {
+        @include input-mixin();
+        height: 3.65rem;
+        width: 100%;
+    }
+
+    input:not([type=submit])::placeholder {
+        color: $gray;
+    }
+
+    label {
+        font-size: 1rem;
+        font-weight: 500;
+        color: $dark-2;
+    }
+
+    input[type=submit] {
+        @include button;
+        width: 5rem;
+        height: 3.6rem;
+    }
+
+    input[type=submit]:hover {
+        background-color: $green-2;
+    }
+
+    button {
+        @include button;
+        color: $gray;
+        background: none;
+        width: 5rem;
+        height: 3.6rem;
+        margin: 0 1rem;
+    }
+
+    button:hover {
+        background-color: rgb(239, 239, 239);
+    }
+
+    div {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+}
+
+.submit {
+    background-color: $green-1;
+}
