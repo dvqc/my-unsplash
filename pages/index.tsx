@@ -10,6 +10,7 @@ import Separator from "../components/Separator";
 import { DeleteModal, AddModal } from "../components/Modal";
 import DefaultHeader, { Left, Header } from "../components/Header";
 import Signin from "../components/Signin";
+import Empty from "../components/Empty";
 
 const PAGE_SIZE = 7;
 
@@ -37,7 +38,7 @@ const Home: NextPage = () => {
   const isReachingEnd =
     isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
 
-  if (status == "loading") return <div>loading ...</div>;
+  if (status == "loading") return <Loader />;
 
   if (status == "unauthenticated") {
     return <Signin></Signin>;
@@ -52,7 +53,7 @@ const Home: NextPage = () => {
       />
       <main>
         {isEmpty ? (
-          <div>You have not added any photos yet</div>
+          <Empty></Empty>
         ) : (
           <InfiniteScroll
             dataLength={data ? data?.length : 0}

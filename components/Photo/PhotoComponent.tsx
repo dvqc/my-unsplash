@@ -34,7 +34,10 @@ const Photo = ({
       }}
     >
       <div className={styles["image-highlights"]} ref={divRef} data-show={show}>
-        <button onClick={onDelete}>delete</button>
+        <button className={styles["like"]}></button>
+        <button className={styles["delete"]} onClick={onDelete}>
+          delete
+        </button>
         <p>{label}</p>
       </div>
     </div>

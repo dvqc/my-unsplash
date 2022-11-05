@@ -62,7 +62,7 @@ $transistion-time: 0.4s;
   display: none;
 }
 
-.image-highlights button {
+.delete {
   display: block;
   font-size: 0.7rem;
   font-weight: 600;
@@ -78,7 +78,7 @@ $transistion-time: 0.4s;
   cursor: pointer;
 }
 
-.image-highlights button:hover {
+.delete:hover {
   background-color: $red-1;
   color: $text-white;
   transition: all $transistion-time/1.5 ease-in;

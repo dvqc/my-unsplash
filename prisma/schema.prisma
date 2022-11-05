@@ -11,11 +11,12 @@ datasource db {
 }
 
 model Photo {
-  id      String  @id @default(cuid())
-  label   String
-  url     String
-  owner   User?   @relation(fields: [ownerId], references: [id])
-  ownerId String?
+  id         String       @id @default(cuid())
+  label      String
+  url        String
+  owner      User?        @relation(fields: [ownerId], references: [id])
+  ownerId    String?
+  LikedPhoto LikedPhoto[]
 }
 
 model Account {
@@ -48,16 +49,27 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String       @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?      @unique
   emailVerified DateTime?
   image         String?
-  createdAt     DateTime? @default(now()) @map(name: "created_at")
-  updatedAt     DateTime? @updatedAt @map(name: "updated_at")
+  createdAt     DateTime?    @default(now()) @map(name: "created_at")
+  updatedAt     DateTime?    @updatedAt @map(name: "updated_at")
   photos        Photo[]
   accounts      Account[]
   sessions      Session[]
+  LikedPhoto    LikedPhoto[]
+}
+
+model LikedPhoto {
+  id      String @id @default(cuid())
+  userId  String @map("user_id")
+  photoId String @map("photo_id")
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  photo   Photo  @relation(fields: [photoId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, photoId])
 }
 
 model VerificationToken {

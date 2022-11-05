@@ -1,0 +1,19 @@
+@import "./globals.scss";
+
+.empty-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../public/images/image.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 40%;
+}
+
+.empty {
+    font-size: 1.3rem;
+    color: $gray;
+
+}
