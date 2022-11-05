@@ -1,84 +1,78 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type { NextPage } from "next";
 import Head from "next/head";
-import prisma from "../lib/prisma";
-import { getSession, signIn, signOut, useSession } from "next-auth/react";
-import { Photo } from "@prisma/client";
-import Header from "../components/Header";
-import PhotoComponent from "../components/PhotoComponent";
-import PhotosContainer from "../components/PhotosContainer";
-import AddModal from "../components/AddModal";
-import { createRef, useState } from "react";
-import DeleteModal from "../components/DeleteModal";
+import { useSession } from "next-auth/react";
+import { PhotosContainer } from "../components/Photo";
+import React, { createRef, useEffect, useState } from "react";
+import useSWRInfinite from "swr/infinite";
+import Loader from "../components/Loader";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Separator from "../components/Separator";
+import { DeleteModal, AddModal } from "../components/Modal";
+import DefaultHeader, { Left, Header } from "../components/Header";
+import Signin from "../components/Signin";
 
-type Feed = {
-  feed: Photo[];
-};
+const PAGE_SIZE = 7;
 
-const PHOTOS_PER_PAGE = 7;
-const Home: NextPage<Feed> = ({ feed }) => {
+const Home: NextPage = () => {
   const { data: session, status } = useSession();
-
-  const [page, setPage] = useState(0);
-  const [isEndReached, setIsEndReached] = useState(false);
   const [deleteId, setDeleteId] = useState("");
 
   const addModalRef = createRef<HTMLDialogElement>();
   const deleteModalRef = createRef<HTMLDialogElement>();
-  
-  const fetchPhotos =() => {
-    
-  }
+
+  const getKey = (pageIndex: number, previousPageData: any) => {
+    if (previousPageData && !previousPageData.length) return null;
+    return `/api/photos/?skip=${pageIndex * PAGE_SIZE}&take=${PAGE_SIZE}`;
+  };
+
+  const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+  const { data, error, setSize, size } = useSWRInfinite(getKey, fetcher);
+
+  const isLoadingInitialData = !data && !error;
+  const isLoadingMore =
+    isLoadingInitialData ||
+    (size > 0 && data && typeof data[size - 1] === "undefined");
+  const isEmpty = data?.[0]?.length === 0;
+  const isReachingEnd =
+    isEmpty || (data && data[data.length - 1]?.length < PAGE_SIZE);
+
   if (status == "loading") return <div>loading ...</div>;
+
   if (status == "unauthenticated") {
-    return (
-      <>
-        <h1>Not signed in </h1>
-        <button onClick={() => signIn()}>Sign in</button>
-      </>
-    );
+    return <Signin></Signin>;
   }
 
   return (
     <>
-      <Header
+      <DefaultHeader
         username={session?.user?.name ?? "Anonymous"}
-        onAddPhoto={() => {
-          addModalRef.current?.showModal();
-        }}
+        userImg={session?.user?.image ?? "../public/images/person.svg"}
+        onAdd={() => addModalRef.current?.showModal()}
       />
       <main>
-        <PhotosContainer
-          photos={feed}
-          selectDelPhoto={setDeleteId}
-          deleteModal={deleteModalRef}
-        />
+        {isEmpty ? (
+          <div>You have not added any photos yet</div>
+        ) : (
+          <InfiniteScroll
+            dataLength={data ? data?.length : 0}
+            next={() => setSize(size + 1)}
+            hasMore={!isReachingEnd || false}
+            loader={<Loader />}
+            endMessage={<Separator text="There are no more images"></Separator>}
+          >
+            <PhotosContainer
+              photos={[...(data ? data?.flat() : [])]}
+              selectDelPhoto={setDeleteId}
+              deleteModal={deleteModalRef}
+            />
+          </InfiniteScroll>
+        )}
         <DeleteModal ref={deleteModalRef} id={deleteId}></DeleteModal>
         <AddModal ref={addModalRef}></AddModal>
       </main>
-      <button onClick={() => signOut()}>Sign out</button>
     </>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const session = await getSession(context);
-  if (session && session != undefined) {
-    const feed = await prisma.photo.findMany({
-      take: PHOTOS_PER_PAGE,
-      where: {
-        ownerId: session.user?.id
-      },
-      orderBy: {
-        id: "desc"
-      }
-    });
-    return {
-      props: { feed }
-    };
-  }
-  return {
-    props: { feed: [] }
-  };
 };
 
 export default Home;

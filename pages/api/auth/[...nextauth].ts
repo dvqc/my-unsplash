@@ -38,6 +38,7 @@ export const authOptions = {
     }) {
       // Send properties to the client, like user id from a provider.
       session.user.id = user.id;
+      session.user.image = user.image;
       return session;
     }
   },

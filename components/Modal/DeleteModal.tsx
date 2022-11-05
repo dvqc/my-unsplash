@@ -1,7 +1,7 @@
 import Router from "next/router";
 import { useEffect, useRef, forwardRef } from "react";
-import styles from "../styles/Modal.module.scss";
-import { closeModal } from "../utils";
+import styles from "@styles/Modal.module.scss";
+import { closeModal } from "../../utils";
 
 const DeleteModal = forwardRef<HTMLDialogElement, { id: string }>(
   ({ id }, ref) => {
@@ -17,7 +17,7 @@ const DeleteModal = forwardRef<HTMLDialogElement, { id: string }>(
         console.error(error);
       }
       closeModal(localRef, () => {});
-      Router.push("/");
+      Router.reload();
     };
 
     useEffect(() => {

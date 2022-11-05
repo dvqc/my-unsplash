@@ -1,0 +1,25 @@
+@import "./globals.scss";
+
+.separator {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: $gray;
+    font-size: 1rem;
+}
+
+.separator::before,
+.separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid rgb(221, 221, 221);
+}
+
+.separator:not(:empty)::before {
+    margin-right: .4em;
+}
+
+.separator:not(:empty)::after {
+    margin-left: .4em;
+}

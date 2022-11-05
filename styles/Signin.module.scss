@@ -1,0 +1,46 @@
+@import './globals.scss';
+
+.signin-container {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.signin-card {
+    width: 30rem;
+    height: 10rem;
+    background-color: rgb(242, 242, 242);
+    border: 1px solid $dark-2;
+    margin: 0;
+    padding: 1.3rem;
+    border: 0;
+    border-radius: .8rem;
+    position: absolute;
+    box-shadow: $box-shadow;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.signin-card h1 {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: $dark-1;
+    margin-bottom: 1rem;
+}
+
+.signin-card button {
+    @include button();
+    min-height: 2rem;
+    width: 5rem;
+    color: $dark-2;
+    transition: all .3s ease-in;
+}
+
+.signin-card button:hover {
+    background-color: rgb(214, 215, 225);
+}

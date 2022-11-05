@@ -11,10 +11,11 @@
 
 .left {
     display: flex;
+    align-items: center;
     height: 100%;
 }
 
-.left input {
+.search {
     display: block;
     min-height: 100%;
     width: 20rem;
@@ -22,25 +23,30 @@
     color: $dark-1;
     border: 1px solid $gray;
     padding-left: 3.5rem;
-    margin: 0 4rem;
+    margin: 0 1rem;
     background: url("../public/images/search.svg") no-repeat left;
     background-size: 2rem;
     background-position: 5%;
 }
 
-.left input:focus {
-    border: 2px solid $green-2;
+.search:focus {
+    border: 1px solid $green-2;
 }
 
-.header button {
+.search::placeholder {
+    color: $gray;
+}
+
+.header .add-button {
     @include button;
     background-color: $green-1;
     width: 9.1rem;
 }
 
-.header button:hover {
+.header .add-button:hover {
     background-color: $green-2;
 }
+
 
 .logo {
     width: fit-content;
@@ -48,6 +54,7 @@
     background: url("../public/images/person.svg") no-repeat left;
     background-size: 2.5rem;
     padding: .8rem 0 0 2.5rem;
+    margin: 0 1rem;
 }
 
 .logo h1 {
@@ -64,4 +71,35 @@
     color: $dark-1;
     font-size: .6rem;
     font-weight: 500;
+}
+
+.logout {
+    margin: 0;
+    padding: 0;
+    border: none;
+    width: auto;
+    background: none;
+    height: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20%;
+    cursor: pointer;
+    transition: all .2s ease-in;
+    width: 2rem;
+}
+
+.logout:hover {
+    background-color: rgb(239, 239, 239);
+
+    img {
+        height: 65%;
+        width: 65%;
+    }
+}
+
+.logout img {
+    transition: all .2s ease-in;
+    height: 60%;
+    width: 60%;
 }

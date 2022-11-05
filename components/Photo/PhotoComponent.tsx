@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
-import styles from "../styles/Image.module.scss";
-import { afterAnimation } from "../utils";
+import styles from "@styles/Image.module.scss";
+import { afterAnimation } from "../../utils";
 
 const Photo = ({
   url,

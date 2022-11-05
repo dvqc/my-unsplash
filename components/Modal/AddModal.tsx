@@ -1,13 +1,7 @@
 import Router from "next/router";
-import {
-  useEffect,
-  useRef,
-  useState,
-  forwardRef,
-  MutableRefObject
-} from "react";
-import styles from "../styles/Modal.module.scss";
-import { closeModal } from "../utils";
+import { useEffect, useRef, useState, forwardRef } from "react";
+import styles from "@styles/Modal.module.scss";
+import { closeModal } from "../../utils";
 
 const AddModal = forwardRef<HTMLDialogElement, {}>(({}, ref) => {
   const [label, setLabel] = useState("");
@@ -27,7 +21,7 @@ const AddModal = forwardRef<HTMLDialogElement, {}>(({}, ref) => {
       console.error(error);
     }
     closeModal(localRef, resetState);
-    Router.push("/");
+    Router.reload();
   };
 
   const resetState = () => {
@@ -46,6 +40,7 @@ const AddModal = forwardRef<HTMLDialogElement, {}>(({}, ref) => {
         <h2>Add a new photo</h2>
         <label htmlFor="label">Label</label>
         <input
+          autoComplete="off"
           id="label"
           autoFocus
           onChange={(e) => setLabel(e.target.value)}
@@ -55,6 +50,7 @@ const AddModal = forwardRef<HTMLDialogElement, {}>(({}, ref) => {
         />
         <label htmlFor="url">Photo URL</label>
         <input
+          autoComplete="off"
           id="url"
           onChange={(e) => setUrl(e.target.value)}
           placeholder="Set the photo url"
