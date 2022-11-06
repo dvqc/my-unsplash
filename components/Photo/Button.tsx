@@ -10,7 +10,7 @@ const Button = ({
 }) => {
   return (
     <button className={styles[type]} onClick={onButton}>
-      delete
+      {type == "delete" ? "delete" : ""}
     </button>
   );
 };

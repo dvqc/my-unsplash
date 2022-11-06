@@ -1,7 +1,8 @@
 import PhotoComponent from "./PhotoComponent";
 import styles from "@styles/Image.module.scss";
 import { Dispatch, RefObject, SetStateAction } from "react";
-import { PhotoWithOwner } from "types/prisma.types";
+import { PhotoWithOwner } from "@mytypes/prisma.types";
+
 import Button from "./Button";
 
 const PhotosContainer = ({
@@ -22,7 +23,7 @@ const PhotosContainer = ({
           label={photo.label}
           button={
             <Button
-              type="delete"
+              type="like"
               onButton={() => {
                 selectDelPhoto(photo.id);
                 deleteModal.current?.showModal();

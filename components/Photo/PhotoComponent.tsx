@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import styles from "@styles/Image.module.scss";
 import { afterAnimation } from "../../utils";
-import { ButtonType } from "types/app.types";
+import { ButtonType } from "@mytypes/app.types";
 
 const Photo = ({
   url,
@@ -38,8 +38,10 @@ const Photo = ({
     >
       <div className={styles["image-highlights"]} ref={divRef} data-show={show}>
         <>{button}</>
-        <p>{label}</p>
-        <p>By {owner}</p>
+        <p className={styles["label"]}>
+          {label} <br></br>
+          <span>- By {owner}</span>
+        </p>
       </div>
     </div>
   );
