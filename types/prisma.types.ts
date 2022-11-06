@@ -14,8 +14,16 @@ import { type } from "os";
 // // 3: This type will include a user and all their posts
 // type UserWithPosts = Prisma.UserGetPayload<typeof userWithPhotos>;
 
-const photosData = Prisma.validator<Prisma.PhotoArgs>()({});
+// const photosData = Prisma.validator<Prisma.PhotoArgs>()({});
 
-type PhotosData = Prisma.PhotoGetPayload<typeof photosData>;
+// type PhotosData = Prisma.PhotoGetPayload<typeof photosData>;
 
-export type { PhotosData };
+
+const photoWithOwner = Prisma.validator<Prisma.PhotoArgs>()({
+   include: { owner: true }
+ });
+
+
+ type PhotoWithOwner = Prisma.PhotoGetPayload<typeof photoWithOwner>;
+
+export type { PhotoWithOwner };

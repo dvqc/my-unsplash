@@ -11,10 +11,9 @@ import DefaultHeader from "../components/Header";
 import Signin from "../components/Signin";
 import Empty from "../components/Empty";
 import { usePagination } from "hooks";
-import { Photo } from "@prisma/client";
 import { PhotoWithOwner } from "types/prisma.types";
 
-const Home: NextPage = () => {
+const MyPhotos: NextPage = () => {
   const { data: session, status } = useSession();
   const [deleteId, setDeleteId] = useState("");
 
@@ -24,7 +23,7 @@ const Home: NextPage = () => {
   const PAGE_SIZE = 7;
 
   const { data, isEmpty, isReachingEnd, setSize, size } =
-    usePagination<PhotoWithOwner>("api/photos", PAGE_SIZE);
+    usePagination<PhotoWithOwner>("api/myphotos", PAGE_SIZE);
 
   if (status == "loading") return <Loader />;
 
@@ -64,4 +63,4 @@ const Home: NextPage = () => {
   );
 };
 
-export default Home;
+export default MyPhotos;

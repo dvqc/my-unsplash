@@ -1,14 +1,15 @@
-import { Photo } from "@prisma/client";
 import PhotoComponent from "./PhotoComponent";
 import styles from "@styles/Image.module.scss";
 import { Dispatch, RefObject, SetStateAction } from "react";
+import { PhotoWithOwner } from "types/prisma.types";
+import Button from "./Button";
 
 const PhotosContainer = ({
   photos,
   selectDelPhoto,
   deleteModal
 }: {
-  photos: Photo[];
+  photos: PhotoWithOwner[];
   selectDelPhoto: Dispatch<SetStateAction<string>>;
   deleteModal: RefObject<HTMLDialogElement>;
 }) => {
@@ -19,10 +20,16 @@ const PhotosContainer = ({
           key={photo.id}
           url={photo.url}
           label={photo.label}
-          onDelete={() => {
-            selectDelPhoto(photo.id);
-            deleteModal.current?.showModal();
-          }}
+          button={
+            <Button
+              type="delete"
+              onButton={() => {
+                selectDelPhoto(photo.id);
+                deleteModal.current?.showModal();
+              }}
+            ></Button>
+          }
+          owner={photo.owner?.name ?? ""}
         ></PhotoComponent>
       ))}
     </div>

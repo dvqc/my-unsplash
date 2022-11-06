@@ -12,7 +12,7 @@ const AddModal = forwardRef<HTMLDialogElement, {}>(({}, ref) => {
     e.preventDefault();
     try {
       const body = { label, url };
-      await fetch("/api/photos", {
+      await fetch("/api/myphotos", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body)

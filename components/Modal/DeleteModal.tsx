@@ -10,7 +10,7 @@ const DeleteModal = forwardRef<HTMLDialogElement, { id: string }>(
     const submitData = async (e: React.SyntheticEvent) => {
       e.preventDefault();
       try {
-        await fetch("/api/photos/" + id, {
+        await fetch("/api/myphotos/" + id, {
           method: "DELETE"
         });
       } catch (error) {

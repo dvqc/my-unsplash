@@ -1,15 +1,18 @@
 import { useRef, useState } from "react";
 import styles from "@styles/Image.module.scss";
 import { afterAnimation } from "../../utils";
+import { ButtonType } from "types/app.types";
 
 const Photo = ({
   url,
   label,
-  onDelete
+  owner,
+  button
 }: {
   url: string;
   label: string;
-  onDelete: () => void;
+  owner: string;
+  button?: JSX.Element;
 }) => {
   const bgImgStyle = {
     background: "url(" + url + ") no-repeat center",
@@ -34,11 +37,9 @@ const Photo = ({
       }}
     >
       <div className={styles["image-highlights"]} ref={divRef} data-show={show}>
-        <button className={styles["like"]}></button>
-        <button className={styles["delete"]} onClick={onDelete}>
-          delete
-        </button>
+        <>{button}</>
         <p>{label}</p>
+        <p>By {owner}</p>
       </div>
     </div>
   );
