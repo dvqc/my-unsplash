@@ -1,9 +1,8 @@
 import { useRef, useState } from "react";
 import styles from "@styles/Image.module.scss";
 import { afterAnimation } from "../../utils";
-import { ButtonType } from "@mytypes/app.types";
 
-const Photo = ({
+const PhotoComponent = ({
   url,
   label,
   owner,
@@ -47,4 +46,4 @@ const Photo = ({
   );
 };
 
-export default Photo;
+export default PhotoComponent;

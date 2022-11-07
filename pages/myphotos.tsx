@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
-import { PhotosContainer } from "../components/Photo";
+import { PhotoComponent, PhotosContainer } from "../components/Photo";
 import React, { createRef, useState } from "react";
 import Loader from "../components/Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -12,6 +12,7 @@ import Signin from "../components/Signin";
 import Empty from "../components/Empty";
 import { usePagination } from "hooks";
 import { PhotoWithOwner } from "types/prisma.types";
+import DeleteButton from "@components/Photo/DeleteButton";
 
 const MyPhotos: NextPage = () => {
   const { data: session, status } = useSession();
@@ -50,9 +51,22 @@ const MyPhotos: NextPage = () => {
             endMessage={<Separator text="There are no more images"></Separator>}
           >
             <PhotosContainer
-              photos={[...(data ? data?.flat() : [])]}
-              selectDelPhoto={setDeleteId}
-              deleteModal={deleteModalRef}
+              photos={[...(data ? data?.flat() : [])].map((photo) => (
+                <PhotoComponent
+                  key={photo.id}
+                  url={photo.url}
+                  label={photo.label}
+                  owner={"You"}
+                  button={
+                    <DeleteButton
+                      onButton={() => {
+                        setDeleteId(photo.id);
+                        deleteModalRef.current?.showModal();
+                      }}
+                    ></DeleteButton>
+                  }
+                />
+              ))}
             />
           </InfiniteScroll>
         )}

@@ -1,4 +1,4 @@
 import PhotosContainer from "./PhotosContainer";
-import Photo from "./PhotoComponent";
+import PhotoComponent from "./PhotoComponent";
 
-export { PhotosContainer, Photo };
+export { PhotosContainer, PhotoComponent };
