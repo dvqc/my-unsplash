@@ -1,3 +1,3 @@
 import usePagination from "./usePagination";
-
-export { usePagination };
+import useLike from "./like";
+export { usePagination, useLike };

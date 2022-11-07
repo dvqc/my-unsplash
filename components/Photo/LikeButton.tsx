@@ -9,7 +9,8 @@ const LikeButton = ({
 }) => {
   return (
     <div className={styles[`like`]}>
-      <button className={styles["pressed"]} onClick={onButton}></button>
+      <button onClick={onButton}></button>
+      {/* className={styles["pressed"]} */}
       <span>{likesNumber}</span>
     </div>
   );

@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next/types";
 import prisma from "../../../lib/prisma";
 import { isPositiveInteger } from "../../../utils";
 
-// POST /api/photo
+// GET,POST /api/myphotos
 
 export default async function handle(
   req: NextApiRequest,
@@ -19,7 +19,7 @@ export default async function handle(
 
   if (req.method === "POST") {
     if (label == "" || label == undefined || url == "" || url == undefined)
-      return res.status(403).json({
+      return res.status(400).json({
         err: "Invalid body content"
       });
 

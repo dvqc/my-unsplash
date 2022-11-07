@@ -10,9 +10,10 @@ import { DeleteModal, AddModal } from "../components/Modal";
 import DefaultHeader from "../components/Header";
 import Signin from "../components/Signin";
 import Empty from "../components/Empty";
-import { usePagination } from "hooks";
+import { useLike, usePagination } from "hooks";
 import { PhotoWithOwner } from "types/prisma.types";
 import LikeButton from "@components/Photo/LikeButton";
+import { useSWRConfig } from "swr";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
@@ -23,7 +24,7 @@ const Home: NextPage = () => {
 
   const PAGE_SIZE = 7;
 
-  const { data, isEmpty, isReachingEnd, setSize, size } =
+  const { data, isEmpty, isReachingEnd, setSize, size, mutate } =
     usePagination<PhotoWithOwner>("api/photos", PAGE_SIZE);
 
   if (status == "loading") return <Loader />;
@@ -51,7 +52,7 @@ const Home: NextPage = () => {
             endMessage={<Separator text="There are no more images"></Separator>}
           >
             <PhotosContainer
-              photos={[...(data ? data?.flat() : [])].map((photo) => (
+              photos={[...(data ? data?.flat() : [])].map((photo, i) => (
                 <PhotoComponent
                   key={photo.id}
                   url={photo.url}
@@ -63,10 +64,10 @@ const Home: NextPage = () => {
                   }
                   button={
                     <LikeButton
-                      likesNumber={90}
-                      onButton={() => {
-                        setDeleteId(photo.id);
-                        deleteModalRef.current?.showModal();
+                      likesNumber={photo._count?.LikedPhoto}
+                      onButton={async () => {
+                        await useLike(photo.id);
+                        mutate();
                       }}
                     ></LikeButton>
                   }

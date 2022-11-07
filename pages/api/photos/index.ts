@@ -3,7 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next/types";
 import prisma from "../../../lib/prisma";
 import { isPositiveInteger } from "../../../utils";
 
-// POST /api/photo
+// Get /api/photo
 
 export default async function handle(
   req: NextApiRequest,
@@ -23,7 +23,10 @@ export default async function handle(
 
     const photos = await prisma.photo.findMany({
       include: {
-        owner: true
+        owner: true,
+        _count: {
+          select: { LikedPhoto: true }
+        }
       },
       skip: 0,
       take: 7,

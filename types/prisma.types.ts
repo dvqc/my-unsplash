@@ -18,12 +18,15 @@ import { type } from "os";
 
 // type PhotosData = Prisma.PhotoGetPayload<typeof photosData>;
 
-
 const photoWithOwner = Prisma.validator<Prisma.PhotoArgs>()({
-   include: { owner: true }
- });
+  include: {
+    owner: true,
+    _count: {
+      select: { LikedPhoto: true }
+    }
+  }
+});
 
-
- type PhotoWithOwner = Prisma.PhotoGetPayload<typeof photoWithOwner>;
+type PhotoWithOwner = Prisma.PhotoGetPayload<typeof photoWithOwner>;
 
 export type { PhotoWithOwner };

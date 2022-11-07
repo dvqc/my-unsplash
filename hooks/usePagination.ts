@@ -9,7 +9,10 @@ const usePagination = <T>(url: string, pageSize: number) => {
 
   const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-  const { data, error, setSize, size } = useSWRInfinite<T[]>(getKey, fetcher);
+  const { data, error, setSize, size, mutate } = useSWRInfinite<T[]>(
+    getKey,
+    fetcher
+  );
 
   const isLoadingInitialData = !data && !error;
   const isLoadingMore =
@@ -26,7 +29,8 @@ const usePagination = <T>(url: string, pageSize: number) => {
     isEmpty,
     isReachingEnd,
     setSize,
-    size
+    size,
+    mutate
   };
 };
 
