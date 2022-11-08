@@ -40,7 +40,9 @@
 .header .add-button {
     @include button;
     background-color: $green-1;
-    width: 9.1rem;
+    // width: 9.1rem;
+    padding: 0 .6rem;
+    margin-left: 1rem;
 }
 
 .header .add-button:hover {
@@ -102,4 +104,10 @@
     transition: all .2s ease-in;
     height: 60%;
     width: 60%;
+}
+
+.right {
+    display: flex;
+    align-items: center;
+    height: 100%;
 }

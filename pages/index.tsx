@@ -7,12 +7,13 @@ import Loader from "../components/Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Separator from "../components/Separator";
 import { DeleteModal, AddModal } from "../components/Modal";
-import DefaultHeader from "../components/Header";
+import DefaultHeader, { HeaderButton } from "../components/Header";
 import Signin from "../components/Signin";
 import Empty from "../components/Empty";
 import { usePagination } from "hooks";
 import { PhotoWithOwner } from "types/prisma.types";
 import LikeButton from "@components/Photo/LikeButton";
+import Router from "next/router";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
@@ -38,8 +39,14 @@ const Home: NextPage = () => {
       <DefaultHeader
         username={user.name ?? "Anonymous"}
         userImg={user.image ?? "../public/images/person.svg"}
-        onAdd={() => addModalRef.current?.showModal()}
-      />
+      >
+        <HeaderButton onClick={() => addModalRef.current?.showModal()}>
+          Add a photo
+        </HeaderButton>
+        <HeaderButton onClick={() => Router.push("/myphotos")}>
+          My photos
+        </HeaderButton>
+      </DefaultHeader>
       <main>
         {isEmpty ? (
           <Empty></Empty>
@@ -58,15 +65,19 @@ const Home: NextPage = () => {
                   url={photo.url}
                   label={photo.label}
                   owner={
-                    photo.owner?.id == user.id ? "You" : photo.owner?.name ?? ""
+                    photo.ownerId == user.id ? "You" : photo.owner?.name ?? ""
                   }
                   button={
                     <LikeButton
                       likesNumber={photo._count?.likes}
                       photoId={photo.id}
-                      isLiked={photo.likes
-                        .map((like) => like.userId)
-                        .includes(user.id)}
+                      isLiked={
+                        photo.likes != undefined
+                          ? photo.likes
+                              .map((like) => like.userId)
+                              .includes(user.id)
+                          : false
+                      }
                       onButton={() => {
                         mutate();
                       }}

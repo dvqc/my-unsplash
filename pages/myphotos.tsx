@@ -7,12 +7,13 @@ import Loader from "../components/Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Separator from "../components/Separator";
 import { DeleteModal, AddModal } from "../components/Modal";
-import DefaultHeader from "../components/Header";
+import DefaultHeader, { HeaderButton } from "../components/Header";
 import Signin from "../components/Signin";
 import Empty from "../components/Empty";
 import { usePagination } from "hooks";
 import { PhotoWithOwner } from "types/prisma.types";
 import DeleteButton from "@components/Photo/DeleteButton";
+import Router from "next/router";
 
 const MyPhotos: NextPage = () => {
   const { data: session, status } = useSession();
@@ -37,8 +38,12 @@ const MyPhotos: NextPage = () => {
       <DefaultHeader
         username={session?.user?.name ?? "Anonymous"}
         userImg={session?.user?.image ?? "../public/images/person.svg"}
-        onAdd={() => addModalRef.current?.showModal()}
-      />
+      >
+        <HeaderButton onClick={() => addModalRef.current?.showModal()}>
+          Add a photo
+        </HeaderButton>
+        <HeaderButton onClick={() => Router.push("/")}>Home</HeaderButton>
+      </DefaultHeader>
       <main>
         {isEmpty ? (
           <Empty></Empty>

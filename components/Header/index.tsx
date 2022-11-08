@@ -2,15 +2,16 @@ import Header from "./Header";
 import Left from "./Left";
 import styles from "@styles/Header.module.scss";
 import { signOut } from "next-auth/react";
+import HeaderButton from "./HeaderButton";
 
 const DefaultHeader = ({
   username,
   userImg,
-  onAdd
+  children
 }: {
   username: string;
   userImg: string;
-  onAdd: () => void;
+  children?: React.ReactNode;
 }) => {
   return (
     <Header>
@@ -38,11 +39,9 @@ const DefaultHeader = ({
           placeholder="Search by name"
         />
       </Left>
-      <button className={styles["add-button"]} onClick={onAdd}>
-        Add a photo
-      </button>
+      <div className={styles["right"]}>{children}</div>
     </Header>
   );
 };
-export { Header, Left };
+export { Header, Left, HeaderButton };
 export default DefaultHeader;
