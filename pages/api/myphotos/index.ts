@@ -30,7 +30,7 @@ export default async function handle(
         ownerId: session?.user?.id
       }
     });
-    res.json(result);
+    return res.json(result);
   } else if (req.method === "GET") {
     let { skip, take } = req.query;
 
@@ -49,9 +49,9 @@ export default async function handle(
         id: "desc"
       }
     });
-    res.json(photos);
+    return res.json(photos);
   } else
-    res.status(405).json({
+    return res.status(405).json({
       err: "Method not allowed on this route"
     });
 }

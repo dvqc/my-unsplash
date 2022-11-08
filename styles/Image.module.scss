@@ -107,7 +107,7 @@ $transistion-time: 0.4s;
   clip-path: polygon(-41% 0, 50% 91%, 141% 0);
 }
 
-.like .pressed {
+.like button.pressed {
   border-image: radial-gradient($red-1 69%, #0000 70%) 84.5% fill/100%;
 }
 

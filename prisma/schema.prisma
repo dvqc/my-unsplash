@@ -11,12 +11,12 @@ datasource db {
 }
 
 model Photo {
-  id         String       @id @default(cuid())
-  label      String
-  url        String
-  owner      User?        @relation(fields: [ownerId], references: [id])
-  ownerId    String?
-  LikedPhoto LikedPhoto[]
+  id      String       @id @default(cuid())
+  label   String
+  url     String
+  owner   User?        @relation(fields: [ownerId], references: [id])
+  ownerId String?
+  likes   LikedPhoto[]
 }
 
 model Account {
@@ -59,7 +59,7 @@ model User {
   photos        Photo[]
   accounts      Account[]
   sessions      Session[]
-  LikedPhoto    LikedPhoto[]
+  likedPhotos   LikedPhoto[]
 }
 
 model LikedPhoto {

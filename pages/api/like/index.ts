@@ -37,7 +37,7 @@ export default async function handle(
             photoId: photoId
           }
         });
-        res.json(like);
+        return res.json(like);
       } catch (e) {
         if (e instanceof PrismaClientKnownRequestError) {
           if (e.code === "P2002") {
@@ -53,7 +53,7 @@ export default async function handle(
       });
     }
   } else
-    res.status(405).json({
+    return res.status(405).json({
       err: "Method not allowed on this route"
     });
 }

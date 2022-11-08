@@ -1,5 +1,6 @@
 import { Photo } from "@prisma/client";
 import useSWRInfinite from "swr/infinite";
+import { fetcher } from "utils";
 
 const usePagination = <T>(url: string, pageSize: number) => {
   const getKey = (pageIndex: number, previousPageData: any) => {
@@ -7,7 +8,6 @@ const usePagination = <T>(url: string, pageSize: number) => {
     return `${url}/?skip=${pageIndex * pageSize}&take=${pageSize}`;
   };
 
-  const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
   const { data, error, setSize, size, mutate } = useSWRInfinite<T[]>(
     getKey,

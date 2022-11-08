@@ -10,14 +10,14 @@ import { DeleteModal, AddModal } from "../components/Modal";
 import DefaultHeader from "../components/Header";
 import Signin from "../components/Signin";
 import Empty from "../components/Empty";
-import { useLike, usePagination } from "hooks";
+import { usePagination } from "hooks";
 import { PhotoWithOwner } from "types/prisma.types";
 import LikeButton from "@components/Photo/LikeButton";
-import { useSWRConfig } from "swr";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
   const [deleteId, setDeleteId] = useState("");
+  const user = session?.user;
 
   const addModalRef = createRef<HTMLDialogElement>();
   const deleteModalRef = createRef<HTMLDialogElement>();
@@ -29,15 +29,15 @@ const Home: NextPage = () => {
 
   if (status == "loading") return <Loader />;
 
-  if (status == "unauthenticated") {
+  if (user == undefined || status == "unauthenticated") {
     return <Signin></Signin>;
   }
 
   return (
     <>
       <DefaultHeader
-        username={session?.user?.name ?? "Anonymous"}
-        userImg={session?.user?.image ?? "../public/images/person.svg"}
+        username={user.name ?? "Anonymous"}
+        userImg={user.image ?? "../public/images/person.svg"}
         onAdd={() => addModalRef.current?.showModal()}
       />
       <main>
@@ -58,15 +58,16 @@ const Home: NextPage = () => {
                   url={photo.url}
                   label={photo.label}
                   owner={
-                    photo.owner?.id == session?.user?.id
-                      ? "You"
-                      : photo.owner?.name ?? ""
+                    photo.owner?.id == user.id ? "You" : photo.owner?.name ?? ""
                   }
                   button={
                     <LikeButton
-                      likesNumber={photo._count?.LikedPhoto}
-                      onButton={async () => {
-                        await useLike(photo.id);
+                      likesNumber={photo._count?.likes}
+                      photoId={photo.id}
+                      isLiked={photo.likes
+                        .map((like) => like.userId)
+                        .includes(user.id)}
+                      onButton={() => {
                         mutate();
                       }}
                     ></LikeButton>

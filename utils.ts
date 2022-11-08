@@ -21,4 +21,8 @@ const closeModal = (
 const isPositiveInteger = (num: string) => {
   return /^\d+$/.test(num);
 };
-export { afterAnimation, closeModal, isPositiveInteger };
+
+const fetcher = (url: string, options?: RequestInit) =>
+  fetch(url, options).then((res) => res.json());
+  
+export { afterAnimation, closeModal, isPositiveInteger, fetcher };

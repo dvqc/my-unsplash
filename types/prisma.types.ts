@@ -1,5 +1,4 @@
 import { Prisma } from "@prisma/client";
-import { type } from "os";
 
 // 1: Define a type that includes the relation to `Photo`
 // const userWithPhotos = Prisma.validator<Prisma.UserArgs>()({
@@ -20,13 +19,21 @@ import { type } from "os";
 
 const photoWithOwner = Prisma.validator<Prisma.PhotoArgs>()({
   include: {
+    likes: {
+      select: {
+        userId: true
+      }
+    },
     owner: true,
     _count: {
-      select: { LikedPhoto: true }
+      select: { likes: true }
     }
   }
 });
 
-type PhotoWithOwner = Prisma.PhotoGetPayload<typeof photoWithOwner>;
+const likedPhoto = Prisma.validator<Prisma.LikedPhotoArgs>()({});
 
-export type { PhotoWithOwner };
+type PhotoWithOwner = Prisma.PhotoGetPayload<typeof photoWithOwner>;
+type LikedPhoto = Prisma.LikedPhotoGetPayload<typeof likedPhoto>;
+
+export type { PhotoWithOwner, LikedPhoto };

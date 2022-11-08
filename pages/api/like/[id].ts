@@ -17,29 +17,29 @@ export default async function handle(
       err: "You are not signed in"
     });
 
-  const { id } = req.query;
-  if (req.method === "DELETE") {
-    if (id == undefined || id instanceof Array)
+  const { id: photoId } = req.query;
+  console.log(photoId, req.query);
+  if (req.method != undefined && ["DELETE", "GET"].includes(req.method)) {
+    if (photoId == undefined || photoId instanceof Array)
       return res.status(404).json({
         err: "Invalid query parameter"
       });
 
-    const photo = await prisma.photo.findUnique({
-      where: { id: id }
+    const like = await prisma.likedPhoto.findFirst({
+      where: { userId: user.id, photoId: photoId }
     });
-    if (!photo)
+    if (!like)
       return res.status(404).json({
         err: "The roussource that you have requested was not found"
       });
-    if (photo.ownerId == user.id) {
-      const deletedPhoto = await prisma.photo.delete({
-        where: { id: id }
+    if (req.method === "DELETE") {
+      const deletedLike = await prisma.likedPhoto.delete({
+        where: { id: like.id }
       });
-      res.json(deletedPhoto);
-    } else {
-      return res.status(403).json({
-        err: "You do not have permission to do this operation on this ressource"
-      });
+      return res.json(deletedLike);
+    }
+    if (req.method === "GET") {
+      return res.json(like);
     }
   } else {
     return res.status(405).json({

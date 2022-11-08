@@ -1,6 +1,6 @@
 import useSWR from "swr";
 
-const useLike = async (photoId: string) => {
+const addLike = async (photoId: string) => {
   let data;
   await fetch(`/api/like/`, {
     method: "POST",
@@ -12,4 +12,4 @@ const useLike = async (photoId: string) => {
   return data;
 };
 
-export default useLike;
+export default addLike;

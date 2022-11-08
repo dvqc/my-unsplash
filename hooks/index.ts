@@ -1,3 +1,5 @@
 import usePagination from "./usePagination";
-import useLike from "./like";
-export { usePagination, useLike };
+import addLike from "./addLike";
+import removeLike from "./removeLike";
+
+export { usePagination, addLike, removeLike };

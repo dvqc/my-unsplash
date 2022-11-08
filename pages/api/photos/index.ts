@@ -24,8 +24,13 @@ export default async function handle(
     const photos = await prisma.photo.findMany({
       include: {
         owner: true,
+        likes: {
+          select: {
+            userId: true
+          }
+        },
         _count: {
-          select: { LikedPhoto: true }
+          select: { likes: true }
         }
       },
       skip: 0,
