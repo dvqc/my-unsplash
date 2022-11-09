@@ -1,5 +1,4 @@
 import type { NextPage } from "next";
-import Head from "next/head";
 import { useSession } from "next-auth/react";
 import { PhotoComponent, PhotosContainer } from "../components/Photo";
 import React, { createRef, useState } from "react";
@@ -14,6 +13,7 @@ import { usePagination } from "hooks";
 import { PhotosWithOwner } from "types/prisma.types";
 import DeleteButton from "@components/Photo/DeleteButton";
 import Router from "next/router";
+import { HeadLayout } from "@components/Layouts";
 
 const MyPhotos: NextPage = () => {
   const { data: session, status } = useSession();
@@ -39,7 +39,8 @@ const MyPhotos: NextPage = () => {
   }
 
   return (
-    <>
+    <HeadLayout>
+      {" "}
       <DefaultHeader
         username={session?.user?.name ?? "Anonymous"}
         userImg={session?.user?.image ?? "../public/images/person.svg"}
@@ -62,7 +63,7 @@ const MyPhotos: NextPage = () => {
             endMessage={<Separator text="There are no more images"></Separator>}
           >
             <PhotosContainer
-              photos={[...(data ? data?.flat() : [])].map((photo) => (
+              photos={[...(data ? data.flat() : [])].map((photo) => (
                 <PhotoComponent
                   key={photo.id}
                   url={photo.url}
@@ -84,7 +85,7 @@ const MyPhotos: NextPage = () => {
         <DeleteModal ref={deleteModalRef} id={deleteId}></DeleteModal>
         <AddModal ref={addModalRef}></AddModal>
       </main>
-    </>
+    </HeadLayout>
   );
 };
 

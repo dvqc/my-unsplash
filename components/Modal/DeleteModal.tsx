@@ -16,7 +16,9 @@ const DeleteModal = forwardRef<HTMLDialogElement, { id: string }>(
       } catch (error) {
         console.error(error);
       }
-      closeModal(localRef, () => {});
+      closeModal(localRef, () => {
+        return;
+      });
       Router.reload();
     };
 
@@ -34,7 +36,9 @@ const DeleteModal = forwardRef<HTMLDialogElement, { id: string }>(
             <button
               onClick={(e) => {
                 e.preventDefault();
-                closeModal(localRef, () => {});
+                closeModal(localRef, () => {
+                  return;
+                });
               }}
             >
               Cancel

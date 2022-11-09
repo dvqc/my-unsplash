@@ -1,5 +1,4 @@
 import styles from "@styles/Header.module.scss";
-import { useState } from "react";
 
 const SearchBar = ({
   setSearch

@@ -4,10 +4,10 @@
 // "next/core-web-vitals"
 
 module.exports = {
-  files: ["*.ts", "*.tsx"],
   extends: ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
   root: true,
   parser: "@typescript-eslint/parser",
+  overrides: [{ files: ["*.ts", "*.tsx"] }],
   parserOptions: {
     project: "./tsconfig.json",
     tsconfigRootDir: __dirname

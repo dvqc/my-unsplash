@@ -26,11 +26,11 @@ const PhotoComponent = ({
     <div
       className={styles["image-container"]}
       style={bgImgStyle}
-      onMouseEnter={(e) => {
+      onMouseEnter={() => {
         setShow("true");
         afterAnimation(divRef, () => setShow("true"));
       }}
-      onMouseLeave={(e) => {
+      onMouseLeave={() => {
         setShow("closing");
         afterAnimation(divRef, () => setShow("false"));
       }}
