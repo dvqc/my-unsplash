@@ -21,6 +21,8 @@ export default async function handle(
     if (skip instanceof Array) skip = skip[0];
     if (take instanceof Array) take = take[0];
 
+    if (label && label != undefined) label = label.split(/ +/).join(" | ");
+
     const photos = await prisma.photo.findMany({
       include: {
         owner: true,
@@ -38,7 +40,9 @@ export default async function handle(
       ...(skip && isPositiveInteger(skip) && { skip: parseInt(skip) }),
       ...(take && isPositiveInteger(take) && { take: parseInt(take) }),
       where: {
-        label: label
+        label: {
+          search: label
+        }
       },
       orderBy: {
         id: "desc"

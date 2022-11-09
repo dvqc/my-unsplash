@@ -32,10 +32,12 @@ export default async function handle(
     });
     return res.json(result);
   } else if (req.method === "GET") {
-    let { skip, take } = req.query;
-
+    let { skip, take, label } = req.query;
+    if (label instanceof Array) label = label[0];
     if (skip instanceof Array) skip = skip[0];
     if (take instanceof Array) take = take[0];
+
+    if (label && label != undefined) label = label.split(/ +/).join(" | ");
 
     const photos = await prisma.photo.findMany({
       skip: 0,
@@ -43,7 +45,10 @@ export default async function handle(
       ...(skip && isPositiveInteger(skip) && { skip: parseInt(skip) }),
       ...(take && isPositiveInteger(take) && { take: parseInt(take) }),
       where: {
-        ownerId: session.user?.id
+        ownerId: session.user?.id,
+        label: {
+          search: label
+        }
       },
       orderBy: {
         id: "desc"

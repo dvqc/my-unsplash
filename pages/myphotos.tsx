@@ -11,13 +11,14 @@ import DefaultHeader, { HeaderButton } from "../components/Header";
 import Signin from "../components/Signin";
 import Empty from "../components/Empty";
 import { usePagination } from "hooks";
-import { PhotoWithOwner } from "types/prisma.types";
+import { PhotosWithOwner } from "types/prisma.types";
 import DeleteButton from "@components/Photo/DeleteButton";
 import Router from "next/router";
 
 const MyPhotos: NextPage = () => {
   const { data: session, status } = useSession();
   const [deleteId, setDeleteId] = useState("");
+  const [search, setSearch] = useState("");
 
   const addModalRef = createRef<HTMLDialogElement>();
   const deleteModalRef = createRef<HTMLDialogElement>();
@@ -25,7 +26,11 @@ const MyPhotos: NextPage = () => {
   const PAGE_SIZE = 7;
 
   const { data, isEmpty, isReachingEnd, setSize, size } =
-    usePagination<PhotoWithOwner>("api/myphotos", PAGE_SIZE);
+    usePagination<PhotosWithOwner>(
+      "api/myphotos",
+      PAGE_SIZE,
+      search.length > 2 ? { label: search } : undefined
+    );
 
   if (status == "loading") return <Loader />;
 
@@ -38,6 +43,7 @@ const MyPhotos: NextPage = () => {
       <DefaultHeader
         username={session?.user?.name ?? "Anonymous"}
         userImg={session?.user?.image ?? "../public/images/person.svg"}
+        setSearch={setSearch}
       >
         <HeaderButton onClick={() => addModalRef.current?.showModal()}>
           Add a photo
