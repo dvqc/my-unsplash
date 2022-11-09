@@ -11,22 +11,28 @@ import DefaultHeader, { HeaderButton } from "../components/Header";
 import Signin from "../components/Signin";
 import Empty from "../components/Empty";
 import { usePagination } from "hooks";
-import { PhotoWithOwner } from "types/prisma.types";
+import { PhotoData, PhotosWithOwner } from "types/prisma.types";
 import LikeButton from "@components/Photo/LikeButton";
 import Router from "next/router";
 
 const Home: NextPage = () => {
   const { data: session, status } = useSession();
   const [deleteId, setDeleteId] = useState("");
-  const user = session?.user;
+  const [search, setSearch] = useState("");
+  console.log(search);
 
   const addModalRef = createRef<HTMLDialogElement>();
   const deleteModalRef = createRef<HTMLDialogElement>();
 
   const PAGE_SIZE = 7;
+  const user = session?.user;
 
   const { data, isEmpty, isReachingEnd, setSize, size, mutate } =
-    usePagination<PhotoWithOwner>("api/photos", PAGE_SIZE);
+    usePagination<PhotosWithOwner>(
+      "api/photos",
+      PAGE_SIZE,
+      search.length > 2 ? { label: search } : undefined
+    );
 
   if (status == "loading") return <Loader />;
 
@@ -37,6 +43,7 @@ const Home: NextPage = () => {
   return (
     <>
       <DefaultHeader
+        setSearch={setSearch}
         username={user.name ?? "Anonymous"}
         userImg={user.image ?? "../public/images/person.svg"}
       >

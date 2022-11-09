@@ -13,11 +13,19 @@ import { Prisma } from "@prisma/client";
 // // 3: This type will include a user and all their posts
 // type UserWithPosts = Prisma.UserGetPayload<typeof userWithPhotos>;
 
-// const photosData = Prisma.validator<Prisma.PhotoArgs>()({});
+const photoData = Prisma.validator<Prisma.PhotoArgs>()({});
 
-// type PhotosData = Prisma.PhotoGetPayload<typeof photosData>;
+type PhotoData = Prisma.PhotoGetPayload<typeof photoData>;
 
-const photoWithOwner = Prisma.validator<Prisma.PhotoArgs>()({
+const photoQuery = Prisma.validator<Prisma.PhotoArgs>()({
+  select: {
+    label: true
+  }
+});
+
+type PhotoQuery = Prisma.PhotoGetPayload<typeof photoQuery>;
+
+const photosWithOwner = Prisma.validator<Prisma.PhotoArgs>()({
   include: {
     likes: {
       select: {
@@ -33,7 +41,7 @@ const photoWithOwner = Prisma.validator<Prisma.PhotoArgs>()({
 
 const likedPhoto = Prisma.validator<Prisma.LikedPhotoArgs>()({});
 
-type PhotoWithOwner = Prisma.PhotoGetPayload<typeof photoWithOwner>;
+type PhotosWithOwner = Prisma.PhotoGetPayload<typeof photosWithOwner>;
 type LikedPhoto = Prisma.LikedPhotoGetPayload<typeof likedPhoto>;
 
-export type { PhotoWithOwner, LikedPhoto };
+export type { PhotosWithOwner, LikedPhoto, PhotoData, PhotoQuery };
