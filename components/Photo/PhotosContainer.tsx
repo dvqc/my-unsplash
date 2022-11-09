@@ -1,7 +1,7 @@
 import PhotoComponent from "./PhotoComponent";
 import styles from "@styles/Image.module.scss";
 import { Dispatch, RefObject, SetStateAction } from "react";
-import { PhotoWithOwner } from "@mytypes/prisma.types";
+import { PhotosWithOwner } from "@mytypes/prisma.types";
 
 import LikeButton from "./LikeButton";
 
