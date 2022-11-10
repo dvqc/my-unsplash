@@ -1,7 +1,7 @@
 import Router from "next/router";
 import { useEffect, useRef, useState, forwardRef } from "react";
 import styles from "@styles/Modal.module.scss";
-import { closeModal } from "../../utils";
+import { closeModal } from "@utils";
 
 const AddModal = forwardRef<HTMLDialogElement, Record<string, unknown>>(
   (_, ref) => {

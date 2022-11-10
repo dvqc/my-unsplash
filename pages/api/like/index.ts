@@ -1,7 +1,7 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { getSession } from "next-auth/react";
 import { NextApiRequest, NextApiResponse } from "next/types";
-import prisma from "../../../lib/prisma";
+import prisma from "@lib/prisma";
 
 // POST /api/like
 

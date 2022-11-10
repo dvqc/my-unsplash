@@ -1,7 +1,7 @@
 import { getSession } from "next-auth/react";
 import { NextApiRequest, NextApiResponse } from "next/types";
-import prisma from "../../../lib/prisma";
-import { isPositiveInteger } from "../../../utils";
+import prisma from "@lib/prisma";
+import { isPositiveInteger } from "@utils";
 
 // GET,POST /api/myphotos
 

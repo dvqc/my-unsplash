@@ -1,9 +1,9 @@
 import { NextApiHandler } from "next";
-import NextAuth from "next-auth";
+import NextAuth, { Session } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
-import prisma from "../../../lib/prisma";
+import prisma from "@lib/prisma";
 
 const authHandler: NextApiHandler = (req, res) =>
   NextAuth(req, res, authOptions);
@@ -29,16 +29,21 @@ export const authOptions = {
   callbacks: {
     async session({
       session,
-      token,
       user
     }: {
-      session: any;
-      token: any;
-      user: any;
+      session: Session;
+      user: {
+        id: string;
+        name?: string | undefined | null;
+        email?: string | undefined | null;
+        image?: string | undefined | null;
+      };
     }) {
       // Send properties to the client, like user id from a provider.
-      session.user.id = user.id;
-      session.user.image = user.image;
+      if (session != undefined && session.user != undefined) {
+        session.user.id = user.id;
+        session.user.image = user.image;
+      }
       return session;
     }
   },
