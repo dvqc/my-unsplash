@@ -1,5 +1,3 @@
-import useSWR from "swr";
-
 const addLike = async (photoId: string) => {
   let data;
   await fetch(`/api/like/`, {

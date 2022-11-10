@@ -1,16 +1,16 @@
 import { PhotoQuery } from "@mytypes/prisma.types";
 import useSWRInfinite from "swr/infinite";
-import { fetcher } from "utils";
+import { fetcher, _getKeyValue_ } from "utils";
 
 const usePagination = <T>(
   url: string,
   pageSize: number,
   query?: PhotoQuery
 ) => {
-  const _getKeyValue_ = (key: string) => (obj: Record<string, any>) => obj[key];
 
   const getKey = (pageIndex: number, previousPageData: any) => {
     if (previousPageData && !previousPageData.length) return null;
+    
     let queryString = "";
     if (query && query != undefined)
       for (let key of Object.keys(query)) {

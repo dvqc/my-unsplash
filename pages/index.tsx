@@ -25,12 +25,19 @@ const Home: NextPage = () => {
   const PAGE_SIZE = 7;
   const user = session?.user;
 
-  const { data, isEmpty, isReachingEnd, setSize, size, mutate } =
-    usePagination<PhotosWithOwner>(
-      "api/photos",
-      PAGE_SIZE,
-      search.length > 2 ? { label: search } : undefined
-    );
+  const {
+    data,
+    isEmpty,
+    isLoadingInitialData,
+    isReachingEnd,
+    setSize,
+    size,
+    mutate
+  } = usePagination<PhotosWithOwner>(
+    "api/photos",
+    PAGE_SIZE,
+    search.length > 2 ? { label: search } : undefined
+  );
 
   if (status == "loading") return <Loader />;
 
@@ -53,45 +60,52 @@ const Home: NextPage = () => {
         </HeaderButton>
       </DefaultHeader>
       <main>
-        {isEmpty ? (
+        {isLoadingInitialData ? (
+          <Loader></Loader>
+        ) : isEmpty || !data || data == undefined ? (
           <Empty></Empty>
         ) : (
           <InfiniteScroll
-            dataLength={data ? data?.length : 0}
+            dataLength={data.length}
             next={() => setSize(size + 1)}
             hasMore={!isReachingEnd || false}
             loader={<Loader />}
             endMessage={<Separator text="There are no more images"></Separator>}
           >
             <PhotosContainer
-              photos={[...(data && data != undefined ? data.flat() : [])].map(
-                (photo) => (
-                  <PhotoComponent
-                    key={photo.id}
-                    url={photo.url}
-                    label={photo.label}
-                    owner={
-                      photo.ownerId == user.id ? "You" : photo.owner?.name ?? ""
-                    }
-                    button={
-                      <LikeButton
-                        likesNumber={photo._count?.likes}
-                        photoId={photo.id}
-                        isLiked={
-                          photo.likes != undefined
-                            ? photo.likes
-                                .map((like) => like.userId)
-                                .includes(user.id)
-                            : false
-                        }
-                        onButton={() => {
-                          mutate();
-                        }}
-                      ></LikeButton>
-                    }
-                  />
+              photoComponents={data
+                .map((page, i) =>
+                  page.map((photo, j) => (
+                    <PhotoComponent
+                      key={photo.id}
+                      url={photo.url}
+                      label={photo.label}
+                      owner={
+                        photo.ownerId == user.id
+                          ? "You"
+                          : photo.owner?.name ?? ""
+                      }
+                      button={
+                        <LikeButton
+                          likesNumber={photo._count?.likes}
+                          photoId={photo.id}
+                          isLiked={
+                            photo.likes != undefined
+                              ? photo.likes
+                                  .map((like) => like.userId)
+                                  .includes(user.id)
+                              : false
+                          }
+                          i={i}
+                          j={j}
+                          data={data}
+                          mutateFn={mutate}
+                        ></LikeButton>
+                      }
+                    />
+                  ))
                 )
-              )}
+                .flat()}
             />
           </InfiniteScroll>
         )}

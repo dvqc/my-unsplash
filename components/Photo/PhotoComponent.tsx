@@ -21,7 +21,7 @@ const PhotoComponent = ({
   type showStates = "true" | "false" | "closing";
   const [show, setShow] = useState<showStates>("false");
   const divRef = useRef<HTMLDivElement>(null);
-
+  
   return (
     <div
       className={styles["image-container"]}

@@ -1,4 +1,3 @@
-import useSWR from "swr";
 
 const removeLike = async (photoId: string) => {
   let data;

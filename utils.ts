@@ -24,5 +24,13 @@ const isPositiveInteger = (num: string) => {
 
 const fetcher = (url: string, options?: RequestInit) =>
   fetch(url, options).then((res) => res.json());
-  
-export { afterAnimation, closeModal, isPositiveInteger, fetcher };
+
+const _getKeyValue_ = (key: string) => (obj: Record<string, any>) => obj[key];
+
+export {
+  afterAnimation,
+  closeModal,
+  isPositiveInteger,
+  fetcher,
+  _getKeyValue_
+};
