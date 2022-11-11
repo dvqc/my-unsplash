@@ -9,7 +9,7 @@ import { AddModal } from "@components/Modal";
 import DefaultHeader, { HeaderButton } from "@components/Header";
 import Signin from "@components/Signin";
 import Empty from "@components/Empty";
-import { usePagination } from "hooks";
+import { addLike, removeLike, usePagination } from "hooks";
 import { PhotosWithOwner } from "types/prisma.types";
 import LikeButton from "@components/Photo/LikeButton";
 import Router from "next/router";
@@ -88,7 +88,6 @@ const Home: NextPage = () => {
                       button={
                         <LikeButton
                           likesNumber={photo._count?.likes}
-                          photoId={photo.id}
                           isLiked={
                             photo.likes != undefined
                               ? photo.likes
@@ -96,10 +95,8 @@ const Home: NextPage = () => {
                                   .includes(user.id)
                               : false
                           }
-                          i={i}
-                          j={j}
-                          data={data}
-                          mutateFn={mutate}
+                          photoId={photo.id}
+                          onClick={() => mutate()}
                         ></LikeButton>
                       }
                     />

@@ -1,52 +1,46 @@
-import { PhotosWithOwner } from "@mytypes/prisma.types";
 import styles from "@styles/Image.module.scss";
+import { fetcher } from "@utils";
 import { addLike, removeLike } from "hooks";
-import { KeyedMutator } from "swr";
+import { useEffect, useRef, useState } from "react";
+import useSWR, { useSWRConfig } from "swr";
 
 const LikeButton = ({
-  mutateFn,
   likesNumber,
-  photoId,
   isLiked,
-  data,
-  i,
-  j
+  onClick,
+  photoId
 }: {
-  mutateFn: KeyedMutator<PhotosWithOwner[][]>;
-  data: PhotosWithOwner[][];
   likesNumber: number;
-  photoId: string;
   isLiked: boolean;
-  i: number;
-  j: number;
+  onClick: () => void;
+  photoId: string;
 }) => {
+  const [likes, setLikes] = useState(likesNumber);
+  const [liked, setLiked] = useState(isLiked);
+
+  const resetState = () => {
+    setLiked(isLiked);
+    setLikes(likesNumber);
+  };
   const handleClick = async () => {
-    if (isLiked) {
-      const newData = data.slice();
-      newData[i][j]._count.likes += 1;
-      mutateFn(newData, {
-        optimisticData: newData,
-        rollbackOnError: true
-      });
-      await addLike(photoId);
+    if (!liked) {
+      setLikes(likes + 1);
+      setLiked(!liked);
+      addLike(photoId).then(onClick).catch(resetState);
     } else {
-      const newData = data.slice();
-      newData[i][j]._count.likes -= 1;
-      mutateFn(newData, {
-        optimisticData: newData,
-        rollbackOnError: true
-      });
-      await removeLike(photoId);
+      setLikes(likes - 1);
+      setLiked(!liked);
+      removeLike(photoId).then(onClick).catch(resetState);
     }
   };
 
   return (
     <div className={styles[`like`]}>
       <button
-        className={isLiked ? styles[`pressed`] : ""}
+        className={liked ? styles[`pressed`] : ""}
         onClick={handleClick}
       ></button>
-      <span>{likesNumber}</span>
+      <span>{likes}</span>
     </div>
   );
 };

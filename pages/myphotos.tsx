@@ -63,7 +63,7 @@ const MyPhotos: NextPage = () => {
             endMessage={<Separator text="There are no more images"></Separator>}
           >
             <PhotosContainer
-              photos={[...(data ? data.flat() : [])].map((photo) => (
+              photoComponents={[...(data ? data.flat() : [])].map((photo) => (
                 <PhotoComponent
                   key={photo.id}
                   url={photo.url}
