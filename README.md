@@ -88,7 +88,7 @@ You will also need to set some environment variables:
 
 1. Set the database connection url
 
-```
+```bash
 # .env
 
 # Specify the url of your database connection that is going to be used by the prisma client.
@@ -100,7 +100,7 @@ DATABASE_URL=postgresql://username:password@host:port/db_name
 
 2. Specify your google app credentials, you can get these from [google](https://console.cloud.google.com/apis/credentials). Remember to set the authorised redirect URI to `https://your-domain/api/auth/callback/google`
 
-```
+```bash
 # .env
 
 GOOGLE_ID=your-google-id
@@ -108,7 +108,7 @@ GOOGLE_SECRET=your-google-secret
 ```
 
 3. Set your [github oauth app](https://github.com/settings/developers) credentials. Your authirization call back url should be `https://your-domain/api/auth`
-```
+```bash
 # .env
 
 GITHUB_ID=your-github-id
@@ -120,8 +120,8 @@ GITHUB_SECRET=your-github-secret
 
 <!-- This section should list any articles or add-ons/plugins that helps you to complete the project. This is optional but it will help you in the future. For example: -->
 
-- [Elephantsql for their free database hosting tier](https://www.elephantsql.com/)
-- [SWR, a lightweight react hooks library for data fetching](https://swr.vercel.app/)
+- [Elephantsql ](https://www.elephantsql.com/)for their free database hosting tier
+- [SWR](https://swr.vercel.app/), a lightweight react hooks library for data fetching
 - [NextAuth.js](https://next-auth.js.org/)
 
 ## Contact
