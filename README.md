@@ -122,6 +122,7 @@ GITHUB_SECRET=your-github-secret
 
 - [Elephantsql for their free database hosting tier](https://www.elephantsql.com/)
 - [SWR, a lightweight react hooks library for data fetching](https://swr.vercel.app/)
+- [NextAuth.js](https://next-auth.js.org/)
 
 ## Contact
 
