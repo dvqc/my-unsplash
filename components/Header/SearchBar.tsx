@@ -9,7 +9,7 @@ const SearchBar = ({
     <input
       className={styles["search"]}
       type="text"
-      placeholder="Search by name"
+      placeholder="Search"
       onKeyUp={(e) => {
         if (e.key == "Enter") setSearch(e.currentTarget.value);
       }}

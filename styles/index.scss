@@ -20,7 +20,7 @@ p {
 }
 
 body {
-    margin: 0 6.65rem;
+    margin: 0 10%;
 }
 
 a {
@@ -39,3 +39,8 @@ button {
     transition: all 0.2s ease-in;
 }
 
+@media (max-width: 900px) {
+    :root {
+        font-size: 12px;
+    }
+}

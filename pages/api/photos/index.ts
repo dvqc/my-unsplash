@@ -45,7 +45,9 @@ export default async function handle(
         }
       },
       orderBy: {
-        id: "desc"
+        likes: {
+          _count: "desc"
+        }
       }
     });
     res.json(photos);

@@ -111,3 +111,21 @@
     align-items: center;
     height: 100%;
 }
+
+@media (max-width: 900px) {
+    .header {
+        flex-direction: column;
+        gap: 1rem;
+        height: auto;
+        align-items: flex-start;
+    }
+
+    .right {
+        height: 3.5rem;
+    }
+
+    .search {
+        width: 60%;
+        height: 3rem;
+    }
+}

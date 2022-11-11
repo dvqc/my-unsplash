@@ -4,9 +4,9 @@ $transistion-time: 0.4s;
 .images-container {
   margin: 2rem auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(25.65rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax($grid-width, 1fr));
   gap: 2rem;
-  grid-auto-rows: 19.1rem;
+  grid-auto-rows: $grid-height;
   grid-auto-flow: dense;
 }
 
@@ -135,5 +135,13 @@ $transistion-time: 0.4s;
   font-weight: 400;
 }
 
+@media (max-width: 900px) {
+  .images-container {
 
-.heart {}
+    grid-template-columns: repeat(auto-fill, minmax($grid-width-mobile, 1fr));
+    grid-auto-rows: $grid-height-mobile;
+  }
+  .image-container:nth-child(3n+2) {
+    grid-row: span 1;
+  }
+}
