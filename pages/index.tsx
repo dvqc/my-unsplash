@@ -9,7 +9,7 @@ import { AddModal } from "@components/Modal";
 import DefaultHeader, { HeaderButton } from "@components/Header";
 import Signin from "@components/Signin";
 import Empty from "@components/Empty";
-import { addLike, removeLike, usePagination } from "hooks";
+import { usePagination } from "hooks";
 import { PhotosWithOwner } from "types/prisma.types";
 import LikeButton from "@components/Photo/LikeButton";
 import Router from "next/router";
@@ -73,36 +73,30 @@ const Home: NextPage = () => {
             endMessage={<Separator text="There are no more images"></Separator>}
           >
             <PhotosContainer
-              photoComponents={data
-                .map((page, i) =>
-                  page.map((photo, j) => (
-                    <PhotoComponent
-                      key={photo.id}
-                      url={photo.url}
-                      label={photo.label}
-                      owner={
-                        photo.ownerId == user.id
-                          ? "You"
-                          : photo.owner?.name ?? ""
+              photoComponents={data.flat().map((photo) => (
+                <PhotoComponent
+                  key={photo.id}
+                  url={photo.url}
+                  label={photo.label}
+                  owner={
+                    photo.ownerId == user.id ? "You" : photo.owner?.name ?? ""
+                  }
+                  button={
+                    <LikeButton
+                      likesNumber={photo._count?.likes}
+                      isLiked={
+                        photo.likes != undefined
+                          ? photo.likes
+                              .map((like) => like.userId)
+                              .includes(user.id)
+                          : false
                       }
-                      button={
-                        <LikeButton
-                          likesNumber={photo._count?.likes}
-                          isLiked={
-                            photo.likes != undefined
-                              ? photo.likes
-                                  .map((like) => like.userId)
-                                  .includes(user.id)
-                              : false
-                          }
-                          photoId={photo.id}
-                          onClick={() => mutate()}
-                        ></LikeButton>
-                      }
-                    />
-                  ))
-                )
-                .flat()}
+                      photoId={photo.id}
+                      onClick={() => mutate()}
+                    ></LikeButton>
+                  }
+                />
+              ))}
             />
           </InfiniteScroll>
         )}

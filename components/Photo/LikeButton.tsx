@@ -1,8 +1,6 @@
 import styles from "@styles/Image.module.scss";
-import { fetcher } from "@utils";
 import { addLike, removeLike } from "hooks";
-import { useEffect, useRef, useState } from "react";
-import useSWR, { useSWRConfig } from "swr";
+import { useState } from "react";
 
 const LikeButton = ({
   likesNumber,
@@ -22,6 +20,7 @@ const LikeButton = ({
     setLiked(isLiked);
     setLikes(likesNumber);
   };
+
   const handleClick = async () => {
     if (!liked) {
       setLikes(likes + 1);
